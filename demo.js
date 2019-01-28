@@ -6,15 +6,22 @@ const color2 = document.getElementById('color2');
 const color = document.getElementById('color');
 const percent = document.getElementById('percent');
 const link = document.querySelector('h1 a');
-const titleChars = Array.from(link.querySelectorAll('h1 span'));
+
+link.innerHTML = link.innerText
+  .split('')
+  .map(c => `<span>${c}</span>`)
+  .join('');
+
+const linkChars = Array.from(link.querySelectorAll('span'));
 
 function refreshColors() {
   steps.innerHTML = '';
   const c1 = color1.value;
   const c2 = color2.value;
 
-  for (let i = 0; i <= 5; i += 1) {
-    const color = lerp(c1, c2, i / 5);
+  const stepsCount = 6;
+  for (let i = 0; i < stepsCount; i += 1) {
+    const color = lerp(c1, c2, i / (stepsCount - 1));
     const div = document.createElement('div');
     div.style.backgroundColor = color;
     steps.appendChild(div);
@@ -22,13 +29,11 @@ function refreshColors() {
 
   color.style.backgroundColor = lerp(c1, c2, Number(percent.value) / 100);
 
-  titleChars.forEach((char, i, chars) => {
+  linkChars.forEach((char, i, chars) => {
     char.style.color = lerp(c1, c2, i / (chars.length - 1));
   });
 
-  link.style.backgroundImage = `linear-gradient(to right, ${
-    link.querySelector('span:first-child').style.color
-  }, ${link.querySelector('span:last-child').style.color})`;
+  link.style.backgroundImage = `linear-gradient(to right, ${c1}, ${c2})`;
 }
 
 color1.value = '#00aaaa';
