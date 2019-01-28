@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.13",
     "jest": "^24.0.0",
+    "parcel-bundler": "^1.11.0",
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.4"
   },
@@ -27,6 +28,8 @@
     "test:watch": "./node_modules/.bin/jest --watch",
     "prebuild": "rm -rf dist && mkdir dist",
     "build": "yarn prebuild && ./node_modules/.bin/tsc",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "start-demo": "./node_modules/.bin/parcel index.html --open --out-dir=demo",
+    "build-demo": "./node_modules/.bin/parcel build --out-dir=demo --public-url '.' index.html"
   }
 }
