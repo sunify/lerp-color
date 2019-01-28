@@ -1,0 +1,32 @@
+{
+  "name": "lerp-color",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "repository": "git@github.com:sunify/lerp-color.git",
+  "author": "Alex Lunyov <isuntc@gmail.com>",
+  "dependencies": {
+    "@types/hex-rgb": "^3.0.0",
+    "@types/rgb-hex": "^2.1.0",
+    "hex-rgb": "^3.0.0",
+    "lerp-array": "^1.1.1",
+    "rgb-hex": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.13",
+    "jest": "^24.0.0",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.2.4"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "./node_modules/.bin/jest",
+    "test:watch": "./node_modules/.bin/jest --watch",
+    "prebuild": "rm -rf dist && mkdir dist",
+    "build": "yarn prebuild && ./node_modules/.bin/tsc",
+    "prepublish": "yarn build"
+  }
+}
