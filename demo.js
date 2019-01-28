@@ -14,19 +14,21 @@ link.innerHTML = link.innerText
 
 const linkChars = Array.from(link.querySelectorAll('span'));
 
+const stepsCount = 6;
+const stepsDivs = [];
+for (let i = 0; i < stepsCount; i += 1) {
+  const div = document.createElement('div');
+  stepsDivs.push(div);
+  steps.appendChild(div);
+}
+
 function refreshColors() {
-  steps.innerHTML = '';
   const c1 = color1.value;
   const c2 = color2.value;
 
-  const stepsCount = 6;
-  for (let i = 0; i < stepsCount; i += 1) {
-    const color = lerp(c1, c2, i / (stepsCount - 1));
-    const div = document.createElement('div');
-    div.style.backgroundColor = color;
-    steps.appendChild(div);
-  }
-
+  stepsDivs.forEach((step, i) => {
+    step.style.backgroundColor = lerp(c1, c2, i / (stepsCount - 1));
+  });
   color.style.backgroundColor = lerp(c1, c2, Number(percent.value) / 100);
 
   linkChars.forEach((char, i, chars) => {
