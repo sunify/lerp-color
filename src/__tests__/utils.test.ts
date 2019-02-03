@@ -29,6 +29,7 @@ describe('parseColor', () => {
   test('parse rgba hex color', () => {
     expect(parseColor('rgba(#FFF)')).toEqual(undefined);
     expect(parseColor('rgba(#FFFFFF, 1)')).toEqual([255, 255, 255, 1]);
+    expect(parseColor('rgba(#0FC, 0.7)')).toEqual([0, 255, 204, 0.7]);
     expect(parseColor('rgba(#FFF, 0.3)')).toEqual([255, 255, 255, 0.3]);
     expect(parseColor('rgba(#FFFFFF, .3)')).toEqual([255, 255, 255, 0.3]);
   });
@@ -56,15 +57,6 @@ describe('stringifyColor', () => {
     );
     expect(stringifyColor([255, 255, 255, 0.5], 'rgba(255 ,255, 255, 1)')).toBe(
       'rgba(255, 255, 255, 0.5)'
-    );
-  });
-
-  test('rgba hex target', () => {
-    expect(stringifyColor([255, 255, 255, 1], 'rgba(#FFF, 1)')).toBe(
-      'rgba(#ffffff, 1)'
-    );
-    expect(stringifyColor([255, 255, 255, 0.5], 'rgba(#FFF, 1)')).toBe(
-      'rgba(#ffffff, 0.5)'
     );
   });
 

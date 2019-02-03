@@ -1,14 +1,14 @@
 import lerpArray from 'lerp-array';
-import { parseColor, stringifyColor } from './utils';
+import { parseColor, stringifyColor, rgbaHexColorRegex } from './utils';
 
 export { isColor } from './utils';
 
 const lerpColor = (start: string, end: string, t: number) => {
-  if (t === 0 || start === end) {
+  if ((t === 0 || start === end) && !rgbaHexColorRegex.test(start)) {
     return start;
   }
 
-  if (t === 1) {
+  if (t === 1 && !rgbaHexColorRegex.test(end)) {
     return end;
   }
 

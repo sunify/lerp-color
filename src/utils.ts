@@ -1,10 +1,10 @@
 import rgbHex from 'rgb-hex';
 import hexRgb from 'hex-rgb';
 
-const hexColorRegex = /^#(?=[0-9a-fA-F]*$)(?:.{3}|.{4}|.{6}|.{8})$/;
-const rgbColorRegex = /^rgb\((\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\)$/;
-const rgbaColorRegex = /^rgba\((\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?|\.\d+)\)$/;
-const rgbaHexColorRegex = /^rgba\((#[0-9a-fA-F]{3,6})\s*,\s*(\d+(?:\.\d+)?|\.\d+)\)$/;
+export const hexColorRegex = /^#(?=[0-9a-fA-F]*$)(?:.{3}|.{4}|.{6}|.{8})$/;
+export const rgbColorRegex = /^rgb\((\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\)$/;
+export const rgbaColorRegex = /^rgba\((\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?|\.\d+)\)$/;
+export const rgbaHexColorRegex = /^rgba\((#[0-9a-fA-F]{3,6})\s*,\s*(\d+(?:\.\d+)?|\.\d+)\)$/;
 
 export const isColor = (c: any) =>
   hexColorRegex.test(String(c)) ||
@@ -62,10 +62,6 @@ export const stringifyColor = (color: number[], target: string) => {
 
   if (rgbColorRegex.test(target) && a === 1) {
     return `rgb(${r}, ${g}, ${b})`;
-  }
-
-  if (rgbaHexColorRegex.test(target)) {
-    return `rgba(#${rgbHex(r, g, b)}, ${a})`;
   }
 
   return `rgba(${r}, ${g}, ${b}, ${a})`;
