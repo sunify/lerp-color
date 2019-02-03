@@ -4,11 +4,13 @@ import hexRgb from 'hex-rgb';
 const hexColorRegex = /^#(?=[0-9a-fA-F]*$)(?:.{3}|.{4}|.{6}|.{8})$/;
 const rgbColorRegex = /^rgb\((\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\)$/;
 const rgbaColorRegex = /^rgba\((\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?|\.\d+)\)$/;
+const rgbaHexColorRegex = /^rgba\((#[0-9a-fA-F]{3,6})\s*,\s*(\d+(?:\.\d+)?|\.\d+)\)$/;
 
 export const isColor = (c: any) =>
   hexColorRegex.test(String(c)) ||
   rgbColorRegex.test(String(c)) ||
-  rgbaColorRegex.test(String(c));
+  rgbaColorRegex.test(String(c)) ||
+  rgbaHexColorRegex.test(String(c));
 
 export const parseColor = (color: string) => {
   if (hexColorRegex.test(color)) {
@@ -33,6 +35,16 @@ export const parseColor = (color: string) => {
     }
   }
 
+  if (rgbaHexColorRegex.test(color)) {
+    const match = color.match(rgbaHexColorRegex);
+    if (match) {
+      return hexRgb(match[1], { format: 'array' })
+        .slice(0, 3)
+        .concat([Number(match[2])]);
+    }
+    return [];
+  }
+
   return undefined;
 };
 
@@ -50,6 +62,10 @@ export const stringifyColor = (color: number[], target: string) => {
 
   if (rgbColorRegex.test(target) && a === 1) {
     return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  if (rgbaHexColorRegex.test(target)) {
+    return `rgba(#${rgbHex(r, g, b)}, ${a})`;
   }
 
   return `rgba(${r}, ${g}, ${b}, ${a})`;
