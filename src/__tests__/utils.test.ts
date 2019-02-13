@@ -1,4 +1,4 @@
-import { parseColor, stringifyColor } from '../utils';
+import { parseColor, stringifyColor, getStep } from '../utils';
 
 describe('parseColor', () => {
   test('parse hex color', () => {
@@ -67,5 +67,55 @@ describe('stringifyColor', () => {
     expect(stringifyColor([255, 255, 255, 0.5], 'blah')).toBe(
       'rgba(255, 255, 255, 0.5)'
     );
+  });
+});
+
+describe('getStep', () => {
+  test('2 colors', () => {
+    expect(getStep(['#FC0', '#FC0', 0])).toEqual(['#FC0', '#FC0', 0]);
+    expect(getStep(['#FC0', '#FC0', 1])).toEqual(['#FC0', '#FC0', 1]);
+    expect(getStep(['#FC0', '#FC0', 0.2])).toEqual(['#FC0', '#FC0', 0.2]);
+    expect(getStep(['#FC0', '#FC0', 0.35])).toEqual(['#FC0', '#FC0', 0.35]);
+  });
+
+  test('3 colors', () => {
+    const colors = ['#FFF', '#F00', '#000'];
+    expect(getStep([...colors, 0])).toEqual(['#FFF', '#F00', 0]);
+    expect(getStep([...colors, 0.25])).toEqual(['#FFF', '#F00', 0.5]);
+    expect(getStep([...colors, 0.5])).toEqual(['#F00', '#000', 0]);
+    expect(getStep([...colors, 0.75])).toEqual(['#F00', '#000', 0.5]);
+    expect(getStep([...colors, 1])).toEqual(['#F00', '#000', 1]);
+  });
+
+  test('6 colors', () => {
+    const roundTime = ([c1, c2, t]: [string, string, number]) => [
+      c1,
+      c2,
+      Math.round(t * 100) / 100
+    ];
+    const colors = ['#FFF', '#F00', '#000', '#CF0', '#0FC', '#0CF'];
+    expect(getStep([...colors, 0])).toEqual(['#FFF', '#F00', 0]);
+    expect(roundTime(getStep([...colors, 0.2]))).toEqual(['#F00', '#000', 0]);
+    expect(roundTime(getStep([...colors, 0.25]))).toEqual([
+      '#F00',
+      '#000',
+      0.25
+    ]);
+    expect(roundTime(getStep([...colors, 0.3]))).toEqual(['#F00', '#000', 0.5]);
+    expect(roundTime(getStep([...colors, 0.4]))).toEqual(['#000', '#CF0', 0]);
+    expect(roundTime(getStep([...colors, 0.5]))).toEqual(['#000', '#CF0', 0.5]);
+    expect(roundTime(getStep([...colors, 0.65]))).toEqual([
+      '#CF0',
+      '#0FC',
+      0.25
+    ]);
+    expect(roundTime(getStep([...colors, 0.7]))).toEqual(['#CF0', '#0FC', 0.5]);
+    expect(roundTime(getStep([...colors, 0.9]))).toEqual(['#0FC', '#0CF', 0.5]);
+    expect(roundTime(getStep([...colors, 0.95]))).toEqual([
+      '#0FC',
+      '#0CF',
+      0.75
+    ]);
+    expect(roundTime(getStep([...colors, 1]))).toEqual(['#0FC', '#0CF', 1]);
   });
 });

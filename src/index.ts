@@ -1,14 +1,22 @@
 import lerpArray from 'lerp-array';
-import { parseColor, stringifyColor, rgbaHexColorRegex } from './utils';
+import {
+  parseColor,
+  stringifyColor,
+  getStep,
+  rgbaHexColorRegex
+} from './utils';
+import lerpFunc from './declaration';
 
 export { isColor } from './utils';
 
-const lerpColor = (start: string, end: string, t: number) => {
-  if ((t === 0 || start === end) && !rgbaHexColorRegex.test(start)) {
+const lerpColor: lerpFunc = (...colors: any[]): string | undefined => {
+  const [start, end, time] = getStep(colors);
+
+  if ((time === 0 || start === end) && !rgbaHexColorRegex.test(start)) {
     return start;
   }
 
-  if (t === 1 && !rgbaHexColorRegex.test(end)) {
+  if (time === 1 && !rgbaHexColorRegex.test(end)) {
     return end;
   }
 
@@ -16,7 +24,7 @@ const lerpColor = (start: string, end: string, t: number) => {
   const endColor = parseColor(end);
 
   if (startColor && endColor) {
-    return stringifyColor(lerpArray(startColor, endColor, t), end);
+    return stringifyColor(lerpArray(startColor, endColor, time), end);
   }
 
   return undefined;
