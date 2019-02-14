@@ -9,22 +9,51 @@ import lerpFunc from './declaration';
 
 export { isColor } from './utils';
 
-const lerpColor: lerpFunc = (...colors: any[]): string | undefined => {
-  const [start, end, time] = getStep(colors);
+const lerpColor: lerpFunc = (...colors: any[]) => {
+  if (typeof colors[colors.length - 1] !== 'number') {
+    const parsedColors = colors.map(parseColor);
 
-  if ((time === 0 || start === end) && !rgbaHexColorRegex.test(start)) {
-    return start;
-  }
+    return (t: number) => {
+      const [step, time] = getStep([...parsedColors, t]);
+      const start = colors[step];
+      const end = colors[step + 1];
 
-  if (time === 1 && !rgbaHexColorRegex.test(end)) {
-    return end;
-  }
+      if ((time === 0 || start === end) && !rgbaHexColorRegex.test(start)) {
+        return start;
+      }
 
-  const startColor = parseColor(start);
-  const endColor = parseColor(end);
+      if (time === 1 && !rgbaHexColorRegex.test(end)) {
+        return end;
+      }
 
-  if (startColor && endColor) {
-    return stringifyColor(lerpArray(startColor, endColor, time), end);
+      const startColor = parsedColors[step];
+      const endColor = parsedColors[step + 1];
+
+      if (startColor && endColor) {
+        return stringifyColor(lerpArray(startColor, endColor, time), end);
+      }
+
+      return undefined;
+    };
+  } else {
+    const [step, time] = getStep(colors);
+    const start = colors[step];
+    const end = colors[step + 1];
+
+    if ((time === 0 || start === end) && !rgbaHexColorRegex.test(start)) {
+      return start;
+    }
+
+    if (time === 1 && !rgbaHexColorRegex.test(end)) {
+      return end;
+    }
+
+    const startColor = parseColor(start);
+    const endColor = parseColor(end);
+
+    if (startColor && endColor) {
+      return stringifyColor(lerpArray(startColor, endColor, time), end);
+    }
   }
 
   return undefined;
