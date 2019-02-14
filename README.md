@@ -12,9 +12,13 @@
  */
 
 (...colors: string[], t: number) => string
+
+// or as partial
+
+(...colors: string[]) => (t: number) => string
 ```
 
-Supports `rgb`, `rgba` and `hex` colors. You can specify any amount of colors
+Supports arbitary (2+) amount of `rgb`, `rgba` and `hex` colors
 
 ## Examples
 
@@ -29,4 +33,17 @@ lerp('#F00', '#000', '#FFF', 1); // #FFF
 lerp('#FF0', 'rgba(#FF0, 0.2)', 0.5); // rgba(255, 255, 0, 0.6)
 lerp('#FF0', 'rgba(#FF0, 0.2)', 1); // rgba(255, 255, 0, 0.2)
 lerp('#FF0', 'rgba(#FF0, 0.2)', 0); // #FFF
+
+/**
+ * or as partial
+ *
+ * In this case all color will be preparsed
+ * Useful for animations and similar stuff
+ */
+
+const partial = lerp('#F00', '#000', '#FFF');
+partial(0.25); // #800000
+partial(0.5); // #000000
+partial(0.75); // #808080
+partial(1); // #FFF
 ```
