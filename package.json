@@ -15,11 +15,16 @@
   "devDependencies": {
     "@types/jest": "^23.3.13",
     "jest": "^24.0.0",
-    "parcel-bundler": "^1.11.0",
+    "parcel-bundler": "1.12.3",
+    "parcel-plugin-svelte": "sunify/parcel-plugin-svelte#forky-fork",
     "size-limit": "^0.21.1",
+    "svelte": "^3.3.0",
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.4"
   },
+  "browserslist": [
+    "last 5 chrome versions"
+  ],
   "files": [
     "dist",
     "README.md"
@@ -31,7 +36,7 @@
     "build": "yarn prebuild && tsc && yarn size",
     "prepublish": "yarn build",
     "size": "size-limit",
-    "start-demo": "parcel index.html --open --out-dir=demo",
+    "start-demo": "parcel index.html --no-hmr --open --out-dir=demo",
     "build-demo": "parcel build --out-dir=demo --public-url '.' index.html"
   }
 }
