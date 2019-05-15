@@ -1,22 +1,84 @@
 <script>
+  import eases from "eases";
   import lerp from "./src/index";
 
   // props
-  export let stepsCount = 13;
+  let stepsCount = 30;
 
   let colors = ["#41bbe9", "#b710da", "#fd8978"];
   const updateColor = i => e => {
     colors[i] = e.target.value;
   };
 
+  let easing = "linear";
+  $: getColor = n =>
+    lerp(...colors, Math.max(0, Math.min(1, eases[easing](n))));
   $: steps = Array.from({ length: stepsCount }, (_, i) =>
-    lerp(...colors, i / (stepsCount - 1))
+    getColor(i / (stepsCount - 1))
   );
   const linkText = "@sunify/lerp-color";
   const linkChars = linkText.split("");
-
-  let percent = 50;
 </script>
+
+<style>
+  :global(html) {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  :global(body) {
+    padding: 4vh 10vw;
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h1 {
+    font-size: 50px;
+    margin-bottom: 50px;
+    display: inline-block;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+
+  h1 a {
+    background-repeat: no-repeat;
+    background-size: 100% 4px;
+    background-position: 0 100%;
+  }
+
+  .steps {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100.5vw;
+    height: 100%;
+    display: flex;
+  }
+
+  .steps div {
+    flex: 1;
+  }
+
+  .pickers {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px;
+  }
+
+  .controls input[type="range"] {
+    margin-bottom: 30px;
+    width: 50%;
+  }
+</style>
 
 <h1>
   <a
@@ -40,17 +102,17 @@
       on:change={updateColor(i)} />
   {/each}
 </div>
+
+<div class="controls">
+  <input type="range" min="3" max="300" bind:value={stepsCount} />
+  <select bind:value={easing}>
+    {#each Object.keys(eases) as easing}
+      <option value={easing}>{easing}</option>
+    {/each}
+  </select>
+</div>
 <div class="steps" id="steps">
   {#each steps as step}
     <div style="background-color: {step}" />
   {/each}
-</div>
-<div class="color" style="background-color: {lerp(...colors, percent / 100)}">
-  <input
-    type="range"
-    value="0"
-    min="0"
-    max="100"
-    id="percent"
-    bind:value={percent} />
 </div>
