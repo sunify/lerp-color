@@ -67,11 +67,10 @@ export const stringifyColor = (color: number[], target: string) => {
   return `rgba(${r}, ${g}, ${b}, ${a})`;
 };
 
-export const getStep = (colors: any[]): [number, number] => {
-  if (colors.length === 3) {
-    return [0, colors[2]] as [number, number];
+export const getStep = (colors: any[], time: number): [number, number] => {
+  if (colors.length === 2) {
+    return [0, time] as [number, number];
   }
-  const [time] = colors.splice(-1) as number[];
   const steps = colors.length - 1;
   const stepSize = 1 / steps;
   const step = Math.min(steps - 1, Math.floor(time / stepSize));

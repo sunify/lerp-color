@@ -9,12 +9,13 @@ import lerpFunc from './declaration';
 
 export { isColor } from './utils';
 
-const lerpColor: lerpFunc = (...colors: any[]) => {
-  if (typeof colors[colors.length - 1] !== 'number') {
+const lerpColor: lerpFunc = (...args: any[]): any => {
+  if (args.length === 1) {
+    const colors: string[] = args[0];
     const parsedColors = colors.map(parseColor);
 
     return (t: number) => {
-      const [step, time] = getStep([...parsedColors, t]);
+      const [step, time] = getStep(parsedColors, t);
       const start = colors[step];
       const end = colors[step + 1];
 
@@ -36,7 +37,9 @@ const lerpColor: lerpFunc = (...colors: any[]) => {
       return undefined;
     };
   } else {
-    const [step, time] = getStep(colors);
+    const colors: string[] =
+      args.length === 2 ? args[0] : args.slice(0, args.length - 1);
+    const [step, time] = getStep(colors, args[args.length - 1]);
     const start = colors[step];
     const end = colors[step + 1];
 

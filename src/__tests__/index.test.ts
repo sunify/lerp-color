@@ -2,29 +2,31 @@ import lerp from '../index';
 
 describe('plain', () => {
   test('partial', () => {
-    const mem = lerp('#000', '#FFF');
+    const mem = lerp(['#000', '#FFF']);
     expect(mem(0)).toBe('#000');
     expect(mem(0.5)).toBe('#808080');
     expect(mem(1)).toBe('#FFF');
 
-    const mem2 = lerp('rgba(#000, 1)', 'rgba(#FFF, 0.6)');
+    const mem2 = lerp(['rgba(#000, 1)', 'rgba(#FFF, 0.6)']);
     expect(mem2(0)).toBe('rgba(0, 0, 0, 1)');
     expect(mem2(0.5)).toBe('rgba(128, 128, 128, 0.8)');
     expect(mem2(1)).toBe('rgba(255, 255, 255, 0.6)');
 
-    const mem3 = lerp(
+    const mem3 = lerp([
       '#FFF',
       'rgba(255, 255, 255, 0.4)',
       'rgb(255, 255, 255,)',
       'rgba(#FFF, 0.5)'
-    );
+    ]);
     for (let i = 1; i <= 10; i += 1) {
       expect(mem3(i / 10)).toBe(
         lerp(
-          '#FFF',
-          'rgba(255, 255, 255, 0.4)',
-          'rgb(255, 255, 255,)',
-          'rgba(#FFF, 0.5)',
+          [
+            '#FFF',
+            'rgba(255, 255, 255, 0.4)',
+            'rgb(255, 255, 255,)',
+            'rgba(#FFF, 0.5)'
+          ],
           i / 10
         )
       );
