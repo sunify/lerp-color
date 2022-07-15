@@ -19,7 +19,7 @@
     "parcel-bundler": "1.12.3",
     "parcel-plugin-svelte": "^3.0.1",
     "size-limit": "^0.21.1",
-    "svelte": "^3.3.0",
+    "svelte": "^3.49.0",
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.4"
   },

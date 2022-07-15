@@ -6257,9 +6257,9 @@ svelte-dev-helper@^1.1.7:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/svelte-dev-helper/-/svelte-dev-helper-1.1.9.tgz#7d187db5c6cdbbd64d75a32f91b8998bde3273c3"
 
-svelte@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.3.0.tgz#03ac695c7814eeae934b9a8f8b55094395b788ca"
+svelte@^3.49.0:
+  version "3.49.0"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.49.0.tgz#5baee3c672306de1070c3b7888fc2204e36a4029"
 
 svgo@^1.0.0, svgo@^1.0.5:
   version "1.1.1"
